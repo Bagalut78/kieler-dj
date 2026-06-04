@@ -1,0 +1,286 @@
+---
+interface Props {
+  mixcloudFeedCh1?: string;
+  mixcloudFeedCh2?: string;
+}
+
+const {
+  mixcloudFeedCh1 = '%2FDefectedrecords%2Fdefected-radio-show-hosted-by-sam-divine-290526%2F',
+  mixcloudFeedCh2 = '%2FALTXFM%2Fdj-paul-rumsey-welcome-to-my-nu-disco-dancefloor-part-7%2F',
+} = Astro.props;
+---
+
+<div class="brutal-mixer glass-card scroll-reveal">
+  <!-- Mixer Top Controls -->
+  <div class="mixer-header">
+    <div class="mixer-knobs">
+      <div class="knob-group">
+        <div class="knob"></div>
+        <span>BASS</span>
+      </div>
+      <div class="knob-group">
+        <div class="knob"></div>
+        <span>MID</span>
+      </div>
+      <div class="knob-group">
+        <div class="knob"></div>
+        <span>TREBLE</span>
+      </div>
+    </div>
+    
+    <!-- Spinning Vinyl Record Icon -->
+    <div class="spinning-record-wrapper">
+      <svg class="vinyl-svg animate-spin-vinyl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="56" height="56">
+        <circle cx="50" cy="50" r="48" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="2 1"/>
+        <circle cx="50" cy="50" r="32" fill="none" stroke="#333" stroke-width="1"/>
+        <circle cx="50" cy="50" r="24" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="3 2"/>
+        <!-- Record Label -->
+        <circle cx="50" cy="50" r="16" fill="var(--color-accent-yellow)" stroke="#1a1a1a" stroke-width="2"/>
+        <circle cx="50" cy="50" r="4" fill="#fcfaf2" stroke="#1a1a1a" stroke-width="1.5"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Channel Selector / Deck Selector Tabs -->
+  <div class="mixer-channels">
+    <button class="channel-btn active" data-tab="mixes">
+      <span class="channel-num">CH 1</span>
+      <span class="channel-title">PARTY & CLUB</span>
+    </button>
+    <button class="channel-btn" data-tab="playlists">
+      <span class="channel-num">CH 2</span>
+      <span class="channel-title">DISCO & LOUNGE</span>
+    </button>
+  </div>
+  
+  <div class="mixer-screen">
+    <!-- CH 1: Party & Club -->
+    <div class="tab-pane active" id="tab-mixes">
+      <div class="embed-wrapper">
+        <iframe 
+          width="100%" 
+          height="120" 
+          src={`https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&light=0&feed=${mixcloudFeedCh1}`} 
+          frameborder="0"
+          title="Kieler-DJ Party Mix Player"
+        ></iframe>
+      </div>
+      <p class="mixer-text">
+        [DECK A // PARTY & CLUB MIX] Treibende Club-Sounds, House-Vibes und Party-Klassiker flüssig ineinander gemixt. So klingt die Eskalation zu späterer Stunde.
+      </p>
+      <a href="https://www.mixcloud.com/matthiasgawlich/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary mixer-btn">
+        Mein Mixcloud Profil
+      </a>
+    </div>
+
+    <!-- CH 2: Disco & Lounge -->
+    <div class="tab-pane" id="tab-playlists">
+      <div class="embed-wrapper">
+        <iframe 
+          width="100%" 
+          height="120" 
+          src={`https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&light=0&feed=${mixcloudFeedCh2}`} 
+          frameborder="0"
+          title="Kieler-DJ Disco Mix Player"
+        ></iframe>
+      </div>
+      <p class="mixer-text">
+        [DECK B // DISCO & LOUNGE MIX] Entspannte Grooves, Nu-Disco und feine Beats. Der perfekte Begleiter für deinen Sektempfang, das Dinner oder die Lounge-Hintergrundbeschallung.
+      </p>
+      <a href="https://www.mixcloud.com/matthiasgawlich/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary mixer-btn">
+        Mein Mixcloud Profil
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .brutal-mixer {
+    background-color: var(--color-white);
+    border: var(--border-brutal);
+    box-shadow: var(--shadow-brutal);
+    border-radius: var(--radius-brutal);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .brutal-mixer:hover {
+    transform: none; /* Keep solid */
+  }
+
+  /* Mixer controls header */
+  .mixer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed var(--color-dark);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .mixer-knobs {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .knob-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .knob-group span {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-dark);
+  }
+
+  .knob {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    border: 3px solid var(--color-dark);
+    background-color: var(--color-bg-paper);
+    position: relative;
+  }
+
+  .knob::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 8px;
+    background-color: var(--color-dark);
+    border-radius: var(--radius-full);
+  }
+
+  .spinning-record-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Channel buttons styled like mixer deck selectors */
+  .mixer-channels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .channel-btn {
+    border: var(--border-brutal);
+    background-color: var(--color-white);
+    padding: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-heading);
+    box-shadow: var(--shadow-brutal-sm);
+    transition: var(--transition-brutal);
+  }
+
+  .channel-btn:hover {
+    background-color: var(--color-bg-paper);
+  }
+
+  .channel-btn.active {
+    background-color: var(--color-accent-yellow);
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--color-dark);
+  }
+
+  .channel-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    opacity: 0.6;
+    margin-bottom: 0.15rem;
+  }
+
+  .channel-title {
+    font-size: 0.95rem;
+    font-weight: 900;
+    color: var(--color-dark);
+    letter-spacing: -0.02em;
+  }
+
+  /* Mixer Screen */
+  .mixer-screen {
+    background-color: var(--color-bg-paper);
+    border: var(--border-brutal);
+    padding: 1.5rem;
+    box-shadow: inset 3px 3px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .tab-pane {
+    display: none;
+  }
+
+  .tab-pane.active {
+    display: block;
+    animation: mixerFadeIn 0.3s ease;
+  }
+
+  @keyframes mixerFadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .embed-wrapper {
+    border: var(--border-brutal);
+    border-radius: var(--radius-brutal);
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background-color: var(--color-dark);
+    box-shadow: var(--shadow-brutal-sm);
+    height: 120px;
+  }
+
+  .mixer-text {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--color-dark);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+
+  .mixer-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    box-shadow: var(--shadow-brutal-sm);
+  }
+
+  .mixer-btn:hover {
+    box-shadow: var(--shadow-brutal);
+  }
+</style>
+
+<script>
+  const tabButtons = document.querySelectorAll('.channel-btn');
+  const tabPanes = document.querySelectorAll('.tab-pane');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetTab = button.getAttribute('data-tab');
+      
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabPanes.forEach(pane => pane.classList.remove('active'));
+      
+      button.classList.add('active');
+      const activePane = document.getElementById(`tab-${targetTab}`);
+      if (activePane) {
+        activePane.classList.add('active');
+      }
+    });
+  });
+</script>

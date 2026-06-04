@@ -1,11 +1,903 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BookingCalculator from '../components/BookingCalculator.jsx';
+import AudioEmbed from '../components/AudioEmbed.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FAQ from '../components/FAQ.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Import Astro Image component and Matthias' decks photos
+import { Image } from 'astro:assets';
+import matthiasDecks from '../assets/matthias-decks.jpg';
+import matthiasDecksHero from '../assets/matthias-decks-hero.jpg';
 ---
 
-<Layout>
-	<Welcome />
+<Layout 
+  title="KIELER-DJ // Live-Mixing, Pro-Audio & Event-Sound in Kiel & SH"
+  description="Professioneller DJ für Hochzeiten, Geburtstage und Firmen-Events in Kiel und ganz Schleswig-Holstein. Errechne jetzt deinen Preis live!"
+>
+  <Header />
+
+  <!-- Hero Section (Poster Style) -->
+  <section class="hero-section">
+    <div class="hero-doodles">
+      <div class="scratch-vinyl-container">
+        <div class="doodle-vinyl animate-spin-vinyl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="300" height="300">
+            <circle cx="100" cy="100" r="95" fill="#121212" stroke="#121212" stroke-width="4"/>
+            <circle cx="100" cy="100" r="85" fill="none" stroke="#fcfaf2" stroke-width="2" stroke-dasharray="10 5"/>
+            <circle cx="100" cy="100" r="75" fill="none" stroke="#fcfaf2" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="65" fill="none" stroke="#fcfaf2" stroke-width="1.5" stroke-dasharray="20 8"/>
+            <circle cx="100" cy="100" r="55" fill="none" stroke="#fcfaf2" stroke-width="1"/>
+            <!-- Record Label -->
+            <circle cx="100" cy="100" r="35" fill="var(--color-accent-yellow)" stroke="#121212" stroke-width="3"/>
+            <text x="100" y="105" font-family="var(--font-heading)" font-weight="900" font-size="8" fill="#121212" text-anchor="middle">KIELER-DJ</text>
+            <circle cx="100" cy="100" r="8" fill="#fcfaf2" stroke="#121212" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- DJ Polaroid Photo Card (Tilted Collage style) -->
+      <div class="hero-polaroid brutal-card">
+        <div class="hero-polaroid-img-placeholder">
+          <!-- Real DJ Photo -->
+          <Image 
+            src={matthiasDecksHero} 
+            alt="Matthias Gawlich - Dein DJ" 
+            class="hero-photo"
+          />
+        </div>
+        <div class="hero-polaroid-caption">DJ MATTHIAS</div>
+      </div>
+    </div>
+
+    <div class="container hero-container">
+      <div class="hero-card brutal-card">
+        <span class="brutal-badge green">SYSTEM: ACTIVE</span>
+        <h1>
+          ECHTES LIVE-MIXING // <br />
+          <span class="highlight-yellow">INDIVIDUELLER SOUND</span>
+        </h1>
+        <p class="hero-desc">
+          Ich bin dein professioneller DJ aus Melsdorf bei Kiel. Keine vorgefertigten Playlists: Ich lese die Stimmung deiner Gäste und mixe jeden Übergang live an den Decks – für einen stimmigen Soundtrack, der perfekt zu deinem Event passt.
+        </p>
+        <div class="hero-actions">
+          <a href="#kalkulator" class="btn btn-primary animate-wiggle">Kalkulator starten</a>
+          <a href="/?contact=true" class="btn btn-outline trigger-contact-modal">Jetzt anfragen</a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Scrolling Marquee Ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker-content-scroll" id="ticker-l">
+      <span class="ticker-item">HOCHZEITEN & PARTYS</span>
+      <span class="ticker-item">100% VINYL FEELING</span>
+      <span class="ticker-item">PRO AUDIO & LIGHTING</span>
+      <span class="ticker-item">KIEL // MELSDORF // SH</span>
+      <span class="ticker-item">SPONTANE WÜNSCHE WILLKOMMEN</span>
+      <!-- Repeat items to ensure smooth wrap -->
+      <span class="ticker-item">HOCHZEITEN & PARTYS</span>
+      <span class="ticker-item">100% VINYL FEELING</span>
+    </div>
+  </div>
+
+  <!-- Leistungen / Services -->
+  <section class="section" id="leistungen">
+    <div class="container" style="position: relative;">
+      <!-- Hand-drawn SVG doodle arrow pointing to services (Interactive Modal Button) -->
+      <div class="scroll-arrow-doodle" id="open-tech-modal" role="button" aria-label="Technik Diagnose öffnen" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" fill="none" stroke="var(--color-accent-orange)" stroke-width="5.5" stroke-linecap="round">
+          <path id="draw-arrow-path" d="M30,10 C50,10 75,25 70,55 C67,68 55,80 45,85 M45,85 L60,82 M45,85 L50,70" />
+        </svg>
+        <span class="arrow-text-label">CHECK MY SYSTEM</span>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 5rem;">
+        <h2 class="section-title">WAS ICH MACHE</h2>
+        <p style="max-width: 600px; margin: 0 auto; font-size: 1.15rem; font-weight: bold; font-family: var(--font-mono);">
+          [ // KATEGORIEN FÜR DEINE PARTY ]
+        </p>
+      </div>
+      
+      <div class="grid grid-3">
+        <!-- Wedding -->
+        <div class="brutal-card service-card scroll-reveal">
+          <span class="service-stamp">DECK A</span>
+          <div class="service-icon">💍</div>
+          <h3>Hochzeiten</h3>
+          <p>
+            Vom Loungesound beim Sektempfang bis zum Exzess ab Mitternacht. Ich begleite deinen schönsten Tag mit individuellem Musikkonzept und dezenter, edler Ausleuchtung.
+          </p>
+          <ul class="brutal-list">
+            <li>* Vorgespräch inklusive</li>
+            <li>* Funkmikrofon inklusive</li>
+            <li>* Ambiente-Ausleuchtung</li>
+          </ul>
+        </div>
+        
+        <!-- Birthday -->
+        <div class="brutal-card service-card accent-yellow scroll-reveal">
+          <span class="service-stamp">DECK B</span>
+          <div class="service-icon">🎉</div>
+          <h3>Geburtstage</h3>
+          <p>
+            Ob 30. oder 60. Geburtstag - ich spiele den perfekten Mix aus deinen Jugend-Hymnen (80er, 90er, 2000er) und aktuellen Club-Charts. Generationen-übergreifendes Mixing!
+          </p>
+          <ul class="brutal-list">
+            <li>* Riesiges Musikarchiv</li>
+            <li>* Kompakter Technikaufbau</li>
+            <li>* Wunschzettel-Einbindung</li>
+          </ul>
+        </div>
+        
+        <!-- Corporate -->
+        <div class="brutal-card service-card scroll-reveal">
+          <span class="service-stamp">DECK C</span>
+          <div class="service-icon">💼</div>
+          <h3>Firmen-Events</h3>
+          <p>
+            Sommerfeste, Galas oder Weihnachtsfeiern. Professionelles Auftreten, passender Pegel beim Dinner und pumpende Bässe, sobald das Licht ausgeht.
+          </p>
+          <ul class="brutal-list">
+            <li>* Rechnung mit Steuernr.</li>
+            <li>* Premium Beschallung</li>
+            <li>* Mikrofone für Ansprachen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section-dark section" id="ueber-mich">
+    <div class="container grid grid-2" style="align-items: center;">
+      <div class="about-poster scroll-reveal">
+        <!-- Real DJ Photo -->
+        <Image 
+          src={matthiasDecks} 
+          alt="Matthias Gawlich - Dein DJ aus Kiel" 
+          class="about-photo"
+        />
+        <div class="poster-stamp">DEIN DJ</div>
+      </div>
+      
+      <div class="about-text-content scroll-reveal">
+        <span class="brutal-badge">ABOUT ME // WER AN DEN DECKS STEHT</span>
+        <h2 style="text-align: left; color: var(--color-white); -webkit-text-stroke: 1px var(--color-bg-paper);">
+          Matthias // Mit Herzblut an den Decks
+        </h2>
+        <p>
+          Ich bin Matthias aus Melsdorf bei Kiel – und ich bin hier, um mit dir und deinen Gästen die Party des Jahres zu feiern.
+        </p>
+        <p>
+          Musik ist für mich keine starre Playlist, sondern Emotion pur. Schon seit jeher fasziniert mich, welche Energie Musik freisetzen kann. Vor vielen Jahren habe ich diese Leidenschaft zum Beruf gemacht. Für mich gibt es nichts Schöneres, als gemeinsam zu feiern und meinen Teil zu einer Nacht beizutragen, an die sich alle noch lange gerne erinnern.
+        </p>
+        <p>
+          Mein Fokus liegt auf privaten Feiern bis zu 150 Personen – egal ob Hochzeiten, runde Geburtstage oder Jubiläen. Dabei lege ich höchsten Wert auf eine ehrliche, professionelle Vorbereitung und ein modernes Ton- und Licht-Setup, das exakt auf deine Location abgestimmt ist.
+        </p>
+        <a href="/?contact=true" class="btn btn-primary trigger-contact-modal" style="margin-top: 1.5rem;">
+          Jetzt unverbindlich anfragen
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preiskalkulator -->
+  <section class="section" id="kalkulator">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <h2 class="section-title">PREISKONSOLEN-RECHNER</h2>
+        <p style="max-width: 600px; margin: 0 auto; font-size: 1.1rem; font-weight: bold; font-family: var(--font-mono);">
+          [ WÄHLE DEINE SPEZIFIKATIONEN FÜR EIN ANGEBOT ]
+        </p>
+      </div>
+      
+      <BookingCalculator client:load />
+    </div>
+  </section>
+
+  <!-- Audio Mixes -->
+  <section class="section-dark section" id="mixes">
+    <div class="container grid grid-2" style="align-items: center; gap: 4rem;">
+      <div class="audio-text scroll-reveal">
+        <span class="brutal-badge">DECK CONTROL</span>
+        <h2 style="text-align: left; color: var(--color-white);">HÖRPROBEN & MIXES</h2>
+        <p>
+          Musik sagt mehr als jede Beschreibung. Schalte CH 1 an, um in meine treibenden Club- und Party-Mixe hineinzuhören. Über CH 2 gelangst du zu meinen entspannten Disco- & Lounge-Sets für den ruhigeren Teil der Feier.
+        </p>
+        <p>
+          Jeder Abend wird musikalisch individuell abgestimmt. Deine No-Go-Musikrichtungen werden strikt beachtet – wir spielen nur das, was du und deine Gäste feiern.
+        </p>
+      </div>
+      
+      <AudioEmbed />
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" id="kundenstimmen">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <h2 class="section-title">STIMMEN DER FEIERNDEN</h2>
+      </div>
+      
+      <Testimonials />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-dark section" id="faq">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <h2 class="section-title">TERMINAL INFO // FAQ</h2>
+      </div>
+      
+      <FAQ />
+    </div>
+  </section>
+
+  <!-- CTA Ticket Sektion -->
+  <section class="section" id="kontakt">
+    <div class="container">
+      <div class="brutal-card cta-ticket accent-orange">
+        <div class="ticket-stub-left"></div>
+        <div class="cta-ticket-content">
+          <span class="brutal-badge green">TICKET #2026</span>
+          <h2>LASS UNS DEINE PARTY PLANEN!</h2>
+          <p>
+            Sichere dir jetzt deinen Wunschtermin. In einem kurzen, kostenlosen Erstgespräch besprechen wir deinen Ablauf, Musikwünsche und Technik.
+          </p>
+          <div class="cta-btns-wrapper">
+            <a href="/?contact=true" class="btn btn-primary animate-wiggle trigger-contact-modal">
+              Jetzt anfragen
+            </a>
+            <a href="#kalkulator" class="btn btn-outline">
+              Preis schätzen
+            </a>
+          </div>
+        </div>
+        <div class="ticket-stub-right"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technik Modal Dialog -->
+  <dialog id="tech-modal" class="brutal-modal">
+    <button class="modal-close-btn" id="close-tech-modal" aria-label="Schließen">X</button>
+    <div class="modal-header-badge">DIAGNOSE: SYSTEM ACTIVE</div>
+    <h3 class="modal-title">TECHNIK-LOGBUCH // KIELER-DJ</h3>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <h4>[ // CONTROL DECKS ]</h4>
+        <p>Professioneller Controller von RANE in Kombination mit einem MacBook Pro für maximale Ausfallsicherheit. Zuverlässiges, stabiles Setup für lückenloses und präzises Live-Mixing.</p>
+      </div>
+      <div class="tech-item">
+        <h4>[ // PRO AUDIO SYSTEM ]</h4>
+        <p>Premium-Beschallung der italienischen Traditionsmarke FBT (entweder 12" Standalone-Lautsprecher oder kraftvolles System mit zusätzlichen 15" Subwoofern, passend zur Raumgröße). Auf Wunsch zusätzliche Außenlautsprecher von Electro-Voice (EV) für freie Trauungen oder Hintergrundmusik im Außenbereich.</p>
+      </div>
+      <div class="tech-item">
+        <h4>[ // LIGHTING RIG ]</h4>
+        <p>Ausschließlich hochwertige Lichttechnik renommierter Marken (Eurolite, American DJ, Chauvet DJ). Individuell gesteuerte Tanzflächen-Beleuchtung und stimmungsvolle Ambiente-Beleuchtung (Uplighting), perfekt auf das Event abgestimmt.</p>
+      </div>
+      <div class="tech-item">
+        <h4>[ // SPEECH EQUIPMENT ]</h4>
+        <p>Professionelles Sennheiser Funkmikrofon-System mit hoher Reichweite und exzellenter Sprachverständlichkeit für Reden, Beiträge und Ansagen.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <Footer />
 </Layout>
+
+<script>
+  // 1. Scroll-Reveal elements using IntersectionObserver
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -10% 0px',
+    threshold: 0.05
+  };
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        // Once revealed, we can unobserve if we want it to stay
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  const revealElements = document.querySelectorAll('.scroll-reveal');
+  revealElements.forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  // 2. Query elements for Scroll-driven animations
+  const heroCard = document.querySelector('.hero-card') as HTMLElement;
+  const heroDoodles = document.querySelector('.hero-doodles') as HTMLElement;
+  const scratchVinyl = document.querySelector('.scratch-vinyl-container') as HTMLElement;
+  
+  // Single scroll ticker
+  const tickerL = document.querySelector('#ticker-l') as HTMLElement;
+  const servicesSection = document.getElementById('leistungen');
+  
+  // Testimonials (Polaroid cards)
+  const polaroids = document.querySelectorAll('.polaroid-card');
+  const testimonialsSection = document.getElementById('kundenstimmen');
+  
+  // Audio Mixer Record
+  const mixerVinyl = document.querySelector('.spinning-record-wrapper') as HTMLElement;
+  
+  // SVG Arrow drawing
+  const arrowPath = document.querySelector('#draw-arrow-path') as SVGPathElement;
+  let arrowLength = 0;
+  if (arrowPath) {
+    // Attempt to get length immediately, fallback to scroll listener if 0
+    arrowLength = arrowPath.getTotalLength();
+    if (arrowLength > 0) {
+      arrowPath.style.strokeDasharray = arrowLength.toString();
+      arrowPath.style.strokeDashoffset = arrowLength.toString();
+    }
+  }
+
+  // 3. Centralised High-Performance Scroll Loop
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+        // A. Hero Card Fade & Scale
+        if (heroCard) {
+          const cardProgress = Math.min(scrollTop / 600, 1);
+          heroCard.style.opacity = (1 - cardProgress * 1.3).toString();
+          heroCard.style.transform = `translateY(${-110 * cardProgress}px) scale(${1 - 0.05 * cardProgress})`;
+        }
+
+        // B. Hero Vinyl Parallax & Scratch Spin
+        if (heroDoodles) {
+          const doodleProgress = Math.min(scrollTop / 800, 1);
+          heroDoodles.style.transform = `translateY(${220 * doodleProgress}px)`;
+        }
+        if (scratchVinyl) {
+          // Direct rotation link to scroll for realistic "scratch" spin
+          const scratchDeg = scrollTop * 0.4;
+          scratchVinyl.style.transform = `rotate(${scratchDeg}deg)`;
+        }
+
+        // C. Single Ticker Parallax
+        if (tickerL) {
+          // Move left relative to scroll
+          const lOffset = -50 - (scrollTop * 0.4);
+          tickerL.style.transform = `translateX(${lOffset}px)`;
+        }
+
+        // D. Floating Testimonial Polaroids (Vertical parallax & rotation drift relative to viewport)
+        if (testimonialsSection && polaroids.length > 0) {
+          const rect = testimonialsSection.getBoundingClientRect();
+          const viewportCenter = window.innerHeight / 2;
+          const sectionCenter = rect.top + rect.height / 2;
+          // Distance of the testimonials section center from viewport center
+          const diff = sectionCenter - viewportCenter;
+
+          // Only apply parallax when the section is in/near the viewport
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            polaroids.forEach((card, index) => {
+              const cardEl = card as HTMLElement;
+              // Very subtle speeds so they drift gently rather than flying away
+              const verticalSpeed = [0.06, -0.04, 0.08][index % 3];
+              const rotationBase = [-2, 1.5, -1][index % 3];
+              // Extremely subtle rotation changes (e.g. max 1.5deg change)
+              const rotationSpeed = [0.002, -0.0015, 0.002][index % 3];
+
+              const yDrift = diff * verticalSpeed;
+              const currentRotation = rotationBase + (diff * rotationSpeed);
+
+              cardEl.style.transform = `translateY(${yDrift}px) rotate(${currentRotation}deg)`;
+            });
+          }
+        }
+
+        // E. Mixer Vinyl Scratch (Spin on scroll)
+        if (mixerVinyl) {
+          const mixerScratchDeg = scrollTop * 0.6;
+          mixerVinyl.style.transform = `rotate(${mixerScratchDeg}deg)`;
+        }
+
+        // F. Hand-Drawn Arrow Drawing on Scroll (Local to services section)
+        if (arrowPath && servicesSection) {
+          if (arrowLength === 0) {
+            arrowLength = arrowPath.getTotalLength();
+            if (arrowLength > 0) {
+              arrowPath.style.strokeDasharray = arrowLength.toString();
+            }
+          }
+          
+          if (arrowLength > 0) {
+            const rect = servicesSection.getBoundingClientRect();
+            // How far the top of the section is from the bottom of the viewport
+            const scrollProgress = window.innerHeight - rect.top;
+            
+            // Draw arrow between entering the screen and scrolling 300px further
+            const drawProgress = Math.min(Math.max(scrollProgress / 300, 0), 1);
+            arrowPath.style.strokeDashoffset = (arrowLength * (1 - drawProgress)).toString();
+          }
+        }
+
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // 4. Modal Event Listeners
+  const techModal = document.getElementById('tech-modal') as HTMLDialogElement;
+  const openModalBtn = document.getElementById('open-tech-modal');
+  const closeModalBtn = document.getElementById('close-tech-modal');
+
+  if (techModal && openModalBtn && closeModalBtn) {
+    openModalBtn.addEventListener('click', () => {
+      techModal.showModal();
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      techModal.close();
+    });
+
+    // Close on clicking backdrop
+    techModal.addEventListener('click', (event) => {
+      if (event.target === techModal) {
+        techModal.close();
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Hero Section Styles */
+  .hero-section {
+    position: relative;
+    padding: 11rem 0 8rem 0;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .hero-container {
+    position: relative;
+    z-index: 10;
+  }
+
+  .hero-card {
+    max-width: 750px;
+    background-color: var(--color-white);
+    padding: 3rem;
+    text-align: left;
+  }
+
+  .hero-card h1 {
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    margin-bottom: 1.5rem;
+    color: var(--color-dark);
+  }
+
+  .highlight-yellow {
+    background-color: var(--color-accent-yellow);
+    padding: 0 0.5rem;
+    box-shadow: 3px 3px 0px var(--color-dark);
+    display: inline-block;
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    color: #333;
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Rotating vinyl record in hero bg */
+  .hero-doodles {
+    position: absolute;
+    top: 25%;
+    right: -5%;
+    width: 400px;
+    height: 400px;
+    pointer-events: none;
+    z-index: 1;
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .hero-doodles {
+      display: block;
+    }
+  }
+
+  .doodle-vinyl {
+    width: 300px;
+    height: 300px;
+    border: 3px dashed var(--color-dark);
+    padding: 8px;
+    border-radius: var(--radius-full);
+  }
+
+  /* Service Card Overrides */
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .service-stamp {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .service-icon {
+    font-size: 3.5rem;
+  }
+
+  .service-card h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+  }
+
+  .service-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+
+  .brutal-list {
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-top: 2px dashed rgba(18,18,18,0.1);
+    padding-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  /* About Sektion Doodles */
+  .about-poster {
+    border: var(--border-brutal);
+    background-color: var(--color-accent-orange);
+    height: 350px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .doodle-headphones {
+    background-color: var(--color-dark);
+    padding: 1.5rem;
+    border: 3px solid var(--color-bg-paper);
+    box-shadow: 5px 5px 0px var(--color-bg-paper);
+  }
+
+  .poster-stamp {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 1.5rem;
+    background-color: var(--color-accent-yellow);
+    border: var(--border-brutal);
+    padding: 0.25rem 0.75rem;
+    transform: rotate(-4deg);
+    box-shadow: 3px 3px 0px var(--color-dark);
+  }
+
+  .about-text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  /* CTA Ticket styling */
+  .cta-ticket {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: var(--color-accent-orange);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-ticket-content {
+    text-align: center;
+    max-width: 600px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .cta-ticket-content h2 {
+    font-size: 2.2rem;
+    color: var(--color-white);
+    -webkit-text-stroke: 1.5px var(--color-dark);
+  }
+
+  .cta-ticket-content p {
+    color: var(--color-white);
+    font-weight: bold;
+  }
+
+  .cta-btns-wrapper {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  /* Spiky/Dotted Ticket Cutouts on the sides */
+  .ticket-stub-left,
+  .ticket-stub-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 60px;
+    background-color: var(--color-bg-paper);
+    border: var(--border-brutal);
+    z-index: 2;
+  }
+
+  .ticket-stub-left {
+    left: -15px;
+    border-radius: 0 30px 30px 0;
+  }
+
+  .ticket-stub-right {
+    right: -15px;
+    border-radius: 30px 0 0 30px;
+  }
+
+  @media (max-width: 600px) {
+    .hero-actions, .cta-btns-wrapper {
+      flex-direction: column;
+      width: 100%;
+    }
+    .hero-actions .btn, .cta-btns-wrapper .btn {
+      width: 100%;
+    }
+    .cta-ticket {
+      padding: 3rem 1rem;
+    }
+    .ticket-stub-left, .ticket-stub-right {
+      display: none;
+    }
+  }
+
+  /* Scratch Vinyl Container */
+  .scratch-vinyl-container {
+    display: inline-block;
+    will-change: transform;
+    transition: transform 0.1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Single ticker marquee */
+  .ticker-wrap {
+    border-top: var(--border-brutal);
+    border-bottom: var(--border-brutal);
+    background-color: var(--color-dark);
+    color: var(--color-accent-yellow);
+    overflow: hidden;
+    width: 100%;
+    padding: 0.8rem 0;
+    display: flex;
+    white-space: nowrap;
+  }
+
+  .ticker-content-scroll {
+    display: inline-flex;
+    will-change: transform;
+    transition: transform 0.1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .ticker-content-scroll .ticker-item::after {
+    content: '★';
+    margin-left: 2rem;
+    color: var(--color-accent-green);
+  }
+
+  /* SVG Draw on Scroll arrow */
+  .scroll-arrow-doodle {
+    position: absolute;
+    top: -55px;
+    left: -40px;
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    pointer-events: auto;
+    transform: rotate(-10deg);
+  }
+
+  @media (max-width: 900px) {
+    .scroll-arrow-doodle {
+      display: none;
+    }
+  }
+
+  .arrow-text-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 900;
+    background-color: var(--color-accent-yellow);
+    border: 2px solid var(--color-dark);
+    padding: 0.15rem 0.5rem;
+    box-shadow: 3px 3px 0px var(--color-dark);
+    transform: rotate(-3deg);
+    color: var(--color-dark);
+    white-space: nowrap;
+    transition: transform var(--transition-brutal), background-color var(--transition-brutal);
+  }
+
+  /* Make arrow doodle interactive button-like */
+  .scroll-arrow-doodle {
+    cursor: pointer;
+  }
+
+  .scroll-arrow-doodle:hover .arrow-text-label {
+    background-color: var(--color-accent-green);
+    transform: rotate(-1deg) scale(1.05);
+    box-shadow: 4px 4px 0px var(--color-dark);
+  }
+
+  .scroll-arrow-doodle:hover svg {
+    transform: scale(1.05) rotate(5deg);
+    transition: transform var(--transition-brutal);
+  }
+
+  /* Modal contents */
+  .modal-header-badge {
+    background-color: var(--color-accent-green);
+    color: var(--color-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border: var(--border-brutal);
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-brutal-sm);
+  }
+
+  .modal-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px dashed rgba(18,18,18,0.1);
+    padding-bottom: 0.75rem;
+  }
+
+  .tech-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .tech-item h4 {
+    color: var(--color-accent-orange);
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+    text-align: left;
+  }
+
+  .tech-item p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+  }
+
+  /* Hero Polaroid Photo Card */
+  .hero-polaroid {
+    position: absolute;
+    bottom: -30px;
+    left: -40px;
+    width: 200px;
+    padding: 0.75rem 0.75rem 1.5rem 0.75rem;
+    background-color: var(--color-white);
+    border: var(--border-brutal);
+    box-shadow: var(--shadow-brutal-sm);
+    transform: rotate(-6deg);
+    z-index: 5;
+    transition: transform var(--transition-brutal), box-shadow var(--transition-brutal);
+  }
+
+  .hero-polaroid:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: var(--shadow-brutal);
+    z-index: 10;
+  }
+
+  .hero-polaroid-img-placeholder {
+    background-color: var(--color-dark);
+    height: 160px;
+    width: 100%;
+    border: 2px solid var(--color-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .doodle-avatar {
+    font-size: 2.2rem;
+  }
+
+  .hero-polaroid-caption {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-align: center;
+    margin-top: 0.75rem;
+    color: var(--color-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Photo Styles */
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 20% 15%;
+    filter: grayscale(0.2);
+    transition: filter var(--transition-brutal), transform var(--transition-brutal);
+  }
+
+  .hero-polaroid:hover .hero-photo {
+    filter: grayscale(0);
+    transform: scale(1.04);
+  }
+
+  .about-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 20% 15%;
+    filter: grayscale(1);
+    transition: filter var(--transition-brutal), transform var(--transition-brutal);
+  }
+
+  .about-poster:hover .about-photo {
+    filter: grayscale(0);
+    transform: scale(1.03);
+  }
+</style>

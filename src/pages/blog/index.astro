@@ -1,0 +1,205 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+// Fetch blog posts and sort by date descending
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Helper function to format German date
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('de-DE', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+};
+---
+
+<Layout 
+  title="DJ-Blog | Kieler-DJ"
+  description="Lese nützliche Tipps zur Partyplanung, Trends in der Eventmusik und spannende Einblicke in das DJ-Business."
+>
+  <Header />
+
+  <main class="blog-index-page">
+    <!-- Blog Hero -->
+    <section class="blog-hero">
+      <div class="container">
+        <badge class="badge animate-glow">DJ-Blog</badge>
+        <h1>Musik-Trends & <span class="gradient-text-neon">Party-Tipps</span></h1>
+        <p>Inspirierende Artikel für deine gelungene Hochzeits- oder Eventplanung.</p>
+      </div>
+    </section>
+
+    <!-- Blog Posts Grid -->
+    <section class="blog-posts-section">
+      <div class="container">
+        {sortedPosts.length === 0 ? (
+          <div class="no-posts brutal-card">
+            <p>Aktuell sind noch keine Blogartikel veröffentlicht. Schau bald wieder vorbei!</p>
+          </div>
+        ) : (
+          <div class="blog-grid">
+            {sortedPosts.map(post => (
+              <article class="blog-card brutal-card">
+                <div class="blog-card-meta">
+                  <span class="blog-date">{formatDate(post.data.pubDate)}</span>
+                  {post.data.minutesToRead && <span class="blog-read-time">⏱ {post.data.minutesToRead}</span>}
+                </div>
+                <h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
+                <p>{post.data.description}</p>
+                <div class="blog-card-footer">
+                  <a href={`/blog/${post.id}`} class="read-more-btn">
+                    Weiterlesen 
+                    <span class="arrow">→</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .blog-index-page {
+    padding: 7rem 0 5rem 0;
+    min-height: 90vh;
+  }
+
+  .blog-hero {
+    text-align: center;
+    padding: 4rem 0 2rem 0;
+  }
+
+  .blog-hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-dark);
+    -webkit-text-stroke: none !important;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+  }
+
+  .blog-hero p {
+    font-size: 1.15rem;
+    color: #333333;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .blog-posts-section {
+    padding: 3rem 0;
+  }
+
+  .no-posts {
+    text-align: center;
+    padding: 3rem;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    background-color: var(--color-white) !important;
+    border: 3px solid #121212 !important;
+    box-shadow: 6px 6px 0px #121212 !important;
+    border-radius: var(--radius-brutal);
+    padding: 2.5rem;
+    transition: transform var(--transition-brutal), box-shadow var(--transition-brutal);
+  }
+
+  .blog-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0px #121212 !important;
+  }
+
+  .blog-card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #555555;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .blog-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.25;
+    font-weight: 900;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .blog-card h2 a {
+    color: var(--color-dark);
+  }
+
+  .blog-card h2 a:hover {
+    color: var(--color-accent-orange);
+  }
+
+  .blog-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #333333;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .blog-card-footer {
+    border-top: 2px dashed rgba(18, 18, 18, 0.15);
+    padding-top: 1rem;
+  }
+
+  .read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-accent-orange);
+    text-transform: uppercase;
+    font-family: var(--font-heading);
+    transition: var(--transition-brutal);
+  }
+
+  .read-more-btn:hover {
+    color: var(--color-accent-green);
+  }
+
+  .read-more-btn:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .arrow {
+    transition: transform var(--transition-brutal);
+  }
+</style>

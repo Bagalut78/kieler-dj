@@ -1,0 +1,206 @@
+---
+const reviews = [
+  {
+    name: "Felix & Annika",
+    event: "Hochzeit",
+    rating: 5,
+    icon: "💍",
+    text: "Unsere Hochzeit war dank Matthias ein absoluter Traum. Das Vorgespräch war super professionell, die Ausleuchtung der Location sah edel aus und musikalisch war es einfach perfekt abgestimmt.",
+    date: "Juni 2025",
+    rotate: "-2deg"
+  },
+  {
+    name: "Susanne",
+    event: "40. Geburtstag",
+    rating: 5,
+    icon: "🎉",
+    text: "Mega Party! Matthias hat genau den richtigen Mix aus 90ern, 2000ern und aktuellen Charts gespielt. Die Stimmung war von Anfang an super und die Tanzfläche war durchgehend voll.",
+    date: "Oktober 2025",
+    rotate: "1.5deg"
+  },
+  {
+    name: "Ina & Roland",
+    event: "Hochzeit",
+    rating: 5,
+    icon: "💍",
+    text: "Wirklich hervorragendes Live-Mixing! Kein vorgefertigtes Programm, sondern echtes Gespür für die Gäste. Der Eröffnungstanz klappte perfekt und danach wurde bis zum Schluss durchgetanzt.",
+    date: "Juli 2025",
+    rotate: "-1.5deg"
+  },
+  {
+    name: "Anja",
+    event: "50. Geburtstag",
+    rating: 5,
+    icon: "🎉",
+    text: "Ein rundum gelungener Abend. Die Musikauswahl war genau auf meine Wünsche und die meiner Gäste abgestimmt. Matthias ist super sympathisch und arbeitet hochprofessionell.",
+    date: "März 2026",
+    rotate: "2deg"
+  },
+  {
+    name: "CCM",
+    event: "Karnevalsparty",
+    rating: 5,
+    icon: "🎭",
+    text: "Absoluter Abriss! Matthias hat die Halle zum Kochen gebracht. Die Übergänge saßen perfekt und die Stimmung war gigantisch. Nächstes Jahr definitiv wieder!",
+    date: "Februar 2026",
+    rotate: "-1deg"
+  },
+  {
+    name: "Freiwillige Feuerwehr Melsdorf",
+    event: "Weihnachtsfeier",
+    rating: 5,
+    icon: "🚒",
+    text: "Super Stimmung auf unserer Weihnachtsfeier! Die Musikauswahl hat alle Altersklassen abgeholt. Technik und Sound waren erste Klasse. Vielen Dank für den tollen Abend!",
+    date: "Dezember 2025",
+    rotate: "1.5deg"
+  },
+  {
+    name: "Andrea & Hauke",
+    event: "Silberhochzeit",
+    rating: 5,
+    icon: "🥂",
+    text: "Perfekte musikalische Begleitung. Erst dezente Hintergrundmusik zum Empfang und Essen, danach ein toller Partymix aus 80er-Klassikern und moderner Tanzmusik. Sehr zu empfehlen!",
+    date: "September 2025",
+    rotate: "-2deg"
+  },
+  {
+    name: "Heike",
+    event: "50. Geburtstag",
+    rating: 5,
+    icon: "🎉",
+    text: "Matthias hat meine Geburtstagsfeier perfekt musikalisch untermalt. Super Absprachen im Vorfeld, toller Sound und eine immer volle Tanzfläche. Meine Gäste waren begeistert!",
+    date: "Januar 2026",
+    rotate: "1.2deg"
+  },
+  {
+    name: "Nina",
+    event: "40. Geburtstag",
+    rating: 5,
+    icon: "🎉",
+    text: "Es war eine grandiose Party! Die Stimmung war fantastisch und Matthias hat jede Runde Musikwünsche perfekt eingebaut. Absolut unkomplizierte Organisation im Vorfeld.",
+    date: "April 2026",
+    rotate: "-1.5deg"
+  }
+];
+---
+
+<div class="polaroid-testimonials">
+  <div class="grid grid-3">
+    {reviews.map(review => (
+      <div class="polaroid-card scroll-reveal" style={`rotate: ${review.rotate};`}>
+        <!-- Polaroid Image Area / Custom Icon placeholder -->
+        <div class="polaroid-image">
+          <span class="avatar-doodle">{review.icon}</span>
+          <span class="rating-stars">
+            {Array.from({ length: review.rating }).map(() => (
+              <span class="star">★</span>
+            ))}
+          </span>
+        </div>
+        
+        <!-- Polaroid Caption / Quote -->
+        <div class="polaroid-caption">
+          <p class="review-text">"{review.text}"</p>
+          <div class="reviewer-meta">
+            <h4 class="reviewer-name">{review.name}</h4>
+            <span class="review-event">{review.event}</span>
+            <span class="review-date">{review.date}</span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .polaroid-testimonials {
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .polaroid-card {
+    background-color: var(--color-white);
+    border: var(--border-brutal);
+    box-shadow: var(--shadow-brutal);
+    padding: 1.25rem 1.25rem 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition-brutal), box-shadow var(--transition-brutal);
+  }
+
+  .polaroid-card:hover {
+    transform: scale(1.03) rotate(0deg) !important;
+    box-shadow: var(--shadow-brutal-hover);
+    z-index: 10;
+  }
+
+  .polaroid-image {
+    background-color: var(--color-dark);
+    height: 160px;
+    border: 2px solid var(--color-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    gap: 0.5rem;
+  }
+
+  .avatar-doodle {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+  }
+
+  .rating-stars {
+    color: var(--color-accent-yellow);
+    font-size: 1.2rem;
+  }
+
+  .polaroid-caption {
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+
+  .review-text {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: bold;
+    line-height: 1.6;
+    color: var(--color-dark);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .reviewer-meta {
+    border-top: 2px dashed rgba(18, 18, 18, 0.1);
+    padding-top: 0.75rem;
+  }
+
+  .reviewer-name {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--color-dark);
+    text-transform: uppercase;
+  }
+
+  .review-event {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-accent-orange);
+    text-transform: uppercase;
+    margin-top: 0.15rem;
+  }
+
+  .review-date {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-dark);
+    opacity: 0.6;
+    margin-top: 0.15rem;
+  }
+</style>

@@ -1,0 +1,278 @@
+---
+// ContactModal.astro
+---
+
+<dialog id="contact-modal" class="brutal-modal contact-modal">
+  <button class="modal-close-btn" id="close-contact-modal" aria-label="Schließen">X</button>
+  <div class="modal-header-badge">// CH 0 // TERMINAL INFO</div>
+  <h3 class="modal-title">ANFRAGE-PORTAL // KIELER-DJ</h3>
+  
+  <form id="direct-contact-form" class="arcade-form" style="margin-top: 1.5rem;">
+    <div class="form-row-brutal">
+      <label for="c-name">Dein Name *</label>
+      <input type="text" id="c-name" name="name" required placeholder="z.B. Julia & Max" />
+    </div>
+    <div class="form-row-brutal">
+      <label for="c-email">E-Mail-Adresse *</label>
+      <input type="email" id="c-email" name="email" required placeholder="deine@mail.de" />
+    </div>
+    <div class="form-row-brutal">
+      <label for="c-phone">Telefonnummer</label>
+      <input type="tel" id="c-phone" name="phone" placeholder="Für Absprachen" />
+    </div>
+    <div class="form-row-brutal">
+      <label for="c-date">Wunschtermin *</label>
+      <input type="date" id="c-date" name="date" required />
+    </div>
+    <div class="form-row-brutal">
+      <label for="c-location">Ort / Location</label>
+      <input type="text" id="c-location" name="location" placeholder="z.B. Kiel" />
+    </div>
+    <div class="form-row-brutal">
+      <label for="c-event">Veranstaltungsart</label>
+      <select id="c-event" name="eventType">
+        <option value="Hochzeit">Hochzeit</option>
+        <option value="Geburtstag">Geburtstag</option>
+        <option value="Firmenfeier">Firmenfeier</option>
+        <option value="Weihnachtsfeier">Weihnachtsfeier</option>
+        <option value="Sonstiges">Sonstiges</option>
+      </select>
+    </div>
+    <div class="form-row-brutal full-width">
+      <label for="c-message">Deine Nachricht</label>
+      <textarea id="c-message" name="message" rows="4" placeholder="Beschreibe kurz dein geplantes Event (z.B. Gästeanzahl, gewünschte Musikrichtungen oder Technik-Besonderheiten)..."></textarea>
+    </div>
+    
+    <div class="full-width" style="margin-top: 1rem; text-align: center;">
+      <button type="submit" class="btn btn-primary" style="width: 100%;">Anfrage absenden</button>
+    </div>
+  </form>
+
+  <div id="contact-form-success" class="step-success full-width" style="display: none; text-align: center; margin-top: 2rem; padding: 2rem 1rem;">
+    <div class="success-icon" style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+    <h2 style="color: var(--color-accent-green); -webkit-text-stroke: 1px var(--color-dark); margin: 0;">Vielen Dank!</h2>
+    <p style="font-weight: bold; margin-top: 1rem; font-family: var(--font-mono); font-size: 0.95rem;">Deine Anfrage wurde erfolgreich übermittelt. Ich melde mich in Kürze bei dir!</p>
+    <button id="close-success-modal" class="btn btn-outline" style="margin-top: 2rem; width: 100%;">Schließen</button>
+  </div>
+</dialog>
+
+<script>
+  // Modal toggle and form submission logic
+  const contactModal = document.getElementById('contact-modal') as HTMLDialogElement;
+  const closeContactBtn = document.getElementById('close-contact-modal');
+  const closeSuccessBtn = document.getElementById('close-success-modal');
+  const contactForm = document.getElementById('direct-contact-form') as HTMLFormElement;
+  const contactSuccess = document.getElementById('contact-form-success') as HTMLElement;
+
+  const openModal = () => {
+    if (contactModal) {
+      // Reset form states
+      if (contactForm) {
+        contactForm.reset();
+        contactForm.style.display = 'grid';
+      }
+      if (contactSuccess) {
+        contactSuccess.style.display = 'none';
+      }
+      contactModal.showModal();
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  const closeModal = () => {
+    if (contactModal) {
+      contactModal.close();
+      document.body.style.overflow = '';
+    }
+  };
+
+  // Register all buttons that trigger the modal
+  const registerTriggers = () => {
+    document.querySelectorAll('.trigger-contact-modal').forEach(link => {
+      // Remove existing listener if re-running, but in Astro it runs once
+      link.addEventListener('click', (e) => {
+        // Only intercept if we are on the page containing the modal and it has the class
+        e.preventDefault();
+        openModal();
+      });
+    });
+  };
+
+  // Setup event listeners
+  if (closeContactBtn) {
+    closeContactBtn.addEventListener('click', closeModal);
+  }
+  if (closeSuccessBtn) {
+    closeSuccessBtn.addEventListener('click', closeModal);
+  }
+
+  // Close when clicking backdrop
+  if (contactModal) {
+    contactModal.addEventListener('click', (e) => {
+      const dialogDimensions = contactModal.getBoundingClientRect();
+      if (
+        e.clientX < dialogDimensions.left ||
+        e.clientX > dialogDimensions.right ||
+        e.clientY < dialogDimensions.top ||
+        e.clientY > dialogDimensions.bottom
+      ) {
+        closeModal();
+      }
+    });
+  }
+
+  // Handle Form Submission
+  if (contactForm && contactSuccess) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = contactForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'WIRD ÜBERMITTELT...';
+
+      const formData = new FormData(contactForm);
+      const payload = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        date: formData.get('date'),
+        location: formData.get('location'),
+        eventType: formData.get('eventType'),
+        hours: 'Keine Angabe (Direktkontakt)',
+        guests: 'Keine Angabe (Direktkontakt)',
+        addons: 'Keine (Direktkontakt)',
+        estimatedPrice: 'Keine Schätzung (Direktkontakt)',
+        message: formData.get('message')
+      };
+
+      try {
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          contactForm.style.display = 'none';
+          contactSuccess.style.display = 'block';
+        } else {
+          alert('Ein Fehler ist aufgetreten. Bitte versuche es erneut oder kontaktiere mich direkt unter matthias.gawlich@gmail.com.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+        }
+      } catch (error) {
+        console.error('Submission error:', error);
+        alert('Netzwerkfehler. Bitte überprüfe deine Internetverbindung und versuche es erneut.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+      }
+    });
+  }
+
+  // Initial runs
+  registerTriggers();
+
+  // Watch for dynamic triggers (like after navigating or React loading)
+  const mutationObserver = new MutationObserver(() => {
+    registerTriggers();
+  });
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+  // On page load, check if "?contact=true" is in search params
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('contact') === 'true') {
+    openModal();
+    // Clean up URL parameter to avoid showing modal again on manual reload
+    const newUrl = window.location.pathname;
+    window.history.replaceState({}, '', newUrl);
+  }
+</script>
+
+<style>
+  /* Modal Title & Header Badge */
+  .modal-header-badge {
+    background-color: var(--color-dark);
+    color: var(--color-accent-yellow);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    display: inline-block;
+    border-radius: var(--radius-brutal);
+    margin-bottom: 0.75rem;
+  }
+
+  .modal-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--color-dark);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 3px solid var(--color-dark);
+    padding-bottom: 0.5rem;
+  }
+
+  /* Arcade Form Layout */
+  .arcade-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: left;
+  }
+
+  @media (min-width: 600px) {
+    .arcade-form {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .full-width {
+      grid-column: span 2;
+    }
+  }
+
+  .form-row-brutal {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-row-brutal label {
+    font-size: 0.85rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--color-dark);
+  }
+
+  .form-row-brutal input,
+  .form-row-brutal textarea,
+  .form-row-brutal select {
+    border: var(--border-brutal);
+    background-color: var(--color-bg-paper);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: var(--radius-brutal);
+    box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.1);
+    color: var(--color-dark);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-brutal input:focus,
+  .form-row-brutal textarea:focus,
+  .form-row-brutal select:focus {
+    outline: none;
+    border-color: var(--color-accent-yellow);
+    background-color: var(--color-white);
+  }
+
+  /* Custom styling override for date picker to look brutalist */
+  .form-row-brutal input[type="date"] {
+    position: relative;
+  }
+</style>
